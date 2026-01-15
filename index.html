@@ -256,9 +256,11 @@ const texts = {
 
 // logging
 const debugLog = document.getElementById("debugLog");
+let debugcounter = 0;
 function log(msg) {
   const time = new Date().toLocaleTimeString();
-  debugLog.innerHTML = "<div>"+ msg + "</div>" + debugLog.innerHTML;
+  debugLog.innerHTML = "<div>"+ debugcounter + " " + msg + "</div>" + debugLog.innerHTML;
+	debugcounter++;
 }
 
 let lang = localStorage.getItem("lang") || "en";
