@@ -20,8 +20,7 @@ body {
 
 .container {
   max-width: 420px;
-	padding-left: 24px;
-	padding-right: 24px;
+  padding: 24px;
   position: relative;
 }
 
@@ -30,16 +29,10 @@ h1 {
   font-size: 2.5rem;
 }
 
-p {
-  margin-bottom: 10px;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
 /* ---------- Language Switch ---------- */
 .lang-switch {
   position: absolute;
-  top: 10px;
+  top: 34px;
   right: 10px;
   display: flex;
   gap: 6px;
@@ -98,18 +91,17 @@ p {
 .slide img {
   max-width: 100%;
   border-radius: 8px;
-  margin-bottom: 10px;
 }
 
 .slide-text {
-  height: 80px;
+  min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
-  text-align: center;
+  font-size: 1.3rem;
 }
 
+/* ---------- Click Zones ---------- */
 .slide-nav {
   position: absolute;
   top: 0;
@@ -121,12 +113,12 @@ p {
 .slide-nav.left { left: 0; }
 .slide-nav.right { right: 0; }
 
+/* ---------- Dots ---------- */
 .dots {
   display: flex;
   justify-content: center;
   gap: 6px;
-  margin-top: 8px;
-	margin-bottom: 8px;
+  margin: 8px 0;
 }
 
 .dot {
@@ -140,38 +132,27 @@ p {
   background: #fff;
 }
 
-/* ---------- Buttons ---------- */
-a.button.google {
-	background-color: #ffffff;
-	color: #7FAE5D;
-	text-decoration: none;
-}
-
-a.button:hover {
-	opacity: 0.9;
-}
-
-a.button.apple {
-	background-color: #cccccc;
-	color: #666666;
-	pointer-events: none;
-}
-
+/* ---------- Store ---------- */
 .store-buttons img {
   width: 200px;
   display: block;
   margin: auto;
 }
 
+/* ---------- Buttons ---------- */
+a.button.apple img {
+    filter: grayscale(100%);
+    opacity: 0.6; /* optional etwas transparent */
+}
+
 .coming-soon {
-  margin-top: 0;
+  margin: 0;
   font-size: 0.85rem;
 }
 
 .footer a {
   color: #fff;
   text-decoration: underline;
-  font-size: 0.9rem;
 }
 </style>
 </head>
@@ -180,7 +161,6 @@ a.button.apple {
 
 <div class="container">
 
-  <!-- Language Switch -->
   <div class="lang-switch">
     <img src="https://flagcdn.com/w20/gb.png" id="lang-en">
     <img src="https://flagcdn.com/w20/de.png" id="lang-de">
@@ -188,10 +168,11 @@ a.button.apple {
 
   <h1>AgriOrganizer</h1>
 
-  <div class="slideshow" id="slideshow">
+  <div class="slideshow">
+	
     <div class="timebar">
-      <div class="timebar-fill" id="timebar"></div>
-    </div>
+			<div class="timebar-fill" id="timebar"></div>
+		</div>
 
     <div class="slide-nav left" id="prev"></div>
     <div class="slide-nav right" id="next"></div>
@@ -205,13 +186,13 @@ a.button.apple {
       <img src="slide1.png">
       <div class="slide-text" data-i18n="s1"></div>
     </div>
-		
-		<div class="slide">
+
+    <div class="slide">
       <img src="slide2.png">
       <div class="slide-text" data-i18n="s2"></div>
     </div>
-		
-		<div class="slide">
+
+    <div class="slide">
       <img src="slide3.png">
       <div class="slide-text" data-i18n="s3"></div>
     </div>
@@ -219,7 +200,7 @@ a.button.apple {
 
   <div class="dots" id="dots"></div>
 
-  <div class="store-buttons">
+	<div class="store-buttons">
 	  <!-- Google Play Badge -->
 	  <a class="button google" href="https://play.google.com/store/apps/details?id=com.ironsofttech.agriorganizer" target="_blank">
 		<img src="https://play.google.com/intl/en_us/badges/static/images/badges/de_badge_web_generic.png" alt="Google Play Store">
@@ -232,7 +213,7 @@ a.button.apple {
   </div>
 
   <div class="footer">
-    <p><a href="legalInformations.html" data-i18n="privacy"></a></p>
+    <p><a id="privacyLink" data-i18n="privacy"></a></p>
   </div>
 
 </div>
@@ -243,35 +224,39 @@ const texts = {
   en: {
     s0: "Organizes cooperation with contractors and neighbors.",
     s1: "Create calendars for machines and resources.",
-    s2: "Create offers for the general public, friends or specific groups of people and publish them online.",
-    s3: "Search for offers, check their availability and send a booking request immediately.",
+    s2: "Create offers and publish them online.",
+    s3: "Search offers and send booking requests.",
     soon: "*coming soon",
-    privacy: "Privacy Policy"
+    privacy: "Privacy Policy",
+    href: "legals/en/legalInformations_1.0.html"
   },
   de: {
     s0: "Organisiert die Zusammenarbeit mit Lohnunternehmen und Nachbarn.",
     s1: "Erstelle Kalender für Maschinen und Ressourcen.",
-	s2: "Erstelle Angebote für die Öffentlichkeit, Freunde oder spezifische Personenkreise und stelle sie Online.",
-	s3: "Suche nach Angebote, überpüfe deren Verfügbarkeit und schicke sofort eine Buchungsanfrage.",
+    s2: "Erstelle Angebote und stelle sie online.",
+    s3: "Suche Angebote und sende Buchungsanfragen.",
     soon: "*demnächst verfügbar",
-    privacy: "Datenschutzerklärung"
+    privacy: "Datenschutzerklärung",
+    href: "legals/de/legalInformations_1.0.html"
   }
 };
 
 let lang = localStorage.getItem("lang") || "en";
 
 function setLang(l) {
-  document.querySelectorAll("[data-i18n]").forEach(el =>
-    el.textContent = texts[l][el.dataset.i18n]
-  );
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if (texts[l][key]) el.textContent = texts[l][key];
+  });
+  document.getElementById("privacyLink").href = texts[l].href;
   document.getElementById("lang-en").classList.toggle("active", l === "en");
   document.getElementById("lang-de").classList.toggle("active", l === "de");
   localStorage.setItem("lang", l);
 }
 
+lang === "de" ? setLang("de") : setLang("en");
 document.getElementById("lang-en").onclick = () => setLang("en");
 document.getElementById("lang-de").onclick = () => setLang("de");
-setLang(lang);
 
 /* ---------- Slideshow ---------- */
 const slides = document.querySelectorAll(".slide");
@@ -282,14 +267,14 @@ const DURATION = 6000;
 const LONG_PRESS = 400;
 
 let index = 0;
-let timer;
-let startTime;
-let paused = false;
-let progress = 0;
+let timer = null;
+let startTime = 0;
+let remaining = DURATION;
+let isPaused = false;
+let longPressActive = false;
 let pressTimer;
-let longPress = false;
 
-/* Dots */
+/* ---------- Dots ---------- */
 slides.forEach((_, i) => {
   const d = document.createElement("div");
   d.className = "dot" + (i === 0 ? " active" : "");
@@ -297,80 +282,85 @@ slides.forEach((_, i) => {
 });
 const dots = dotsContainer.children;
 
-function showSlide(i) {
+/* ---------- Core ---------- */
+function activateSlide(i, reset = true) {
   slides[index].classList.remove("active");
   dots[index].classList.remove("active");
+
   index = (i + slides.length) % slides.length;
+
   slides[index].classList.add("active");
   dots[index].classList.add("active");
-  startTimer();
+
+  if (reset) {
+    remaining = DURATION;
+    startTimer();
+  }
 }
 
 /* ---------- Timer ---------- */
 function startTimer() {
   clearTimeout(timer);
-  progress = 0;
+  isPaused = false;
+  startTime = Date.now();
+
   timebar.style.transition = "none";
-  timebar.style.transform = "scaleX(0)";
+  timebar.style.transform = `scaleX(${1 - remaining / DURATION})`;
+
   requestAnimationFrame(() => {
-    timebar.style.transition = `transform ${DURATION}ms linear`;
+    timebar.style.transition = `transform ${remaining}ms linear`;
     timebar.style.transform = "scaleX(1)";
   });
-  startTime = Date.now();
-  timer = setTimeout(() => showSlide(index + 1), DURATION);
+
+  timer = setTimeout(() => activateSlide(index + 1, true), remaining);
 }
 
 function pauseTimer() {
-  if (paused) return;
-  paused = true;
-  clearTimeout(timer);
+  if (isPaused) return;
+  isPaused = true;
 
+  clearTimeout(timer);
   const elapsed = Date.now() - startTime;
-  progress += elapsed / DURATION;
+  remaining -= elapsed;
 
   timebar.style.transition = "none";
-  timebar.style.transform = `scaleX(${progress})`;
+  timebar.style.transform = `scaleX(${1 - remaining / DURATION})`;
 }
 
-function resumeTimer() {
-  if (!paused) return;
-  paused = false;
-
-  const remaining = (1 - progress) * DURATION;
-  timebar.style.transition = `transform ${remaining}ms linear`;
-  timebar.style.transform = "scaleX(1)";
-
-  startTime = Date.now();
-  timer = setTimeout(() => showSlide(index + 1), remaining);
-}
-
-/* ---------- Click / Longpress ---------- */
-function pressStart() {
-  longPress = false;
+/* ---------- Input ---------- */
+function onPressStart() {
+  longPressActive = false;
   pressTimer = setTimeout(() => {
-    longPress = true;
+    longPressActive = true;
     pauseTimer();
   }, LONG_PRESS);
 }
 
-function pressEnd(dir) {
+function onPressEnd(dir) {
   clearTimeout(pressTimer);
-  if (longPress) {
-    resumeTimer();
+
+  if (longPressActive) {
+    startTimer(); // resume
   } else {
-    showSlide(index + dir);
+    activateSlide(index + dir, true);
   }
 }
 
-document.getElementById("prev").onmousedown = pressStart;
-document.getElementById("prev").onmouseup = () => pressEnd(-1);
-document.getElementById("next").onmousedown = pressStart;
-document.getElementById("next").onmouseup = () => pressEnd(1);
+/* ---------- Events ---------- */
+["pointerdown"].forEach(e => {
+  prev.addEventListener(e, onPressStart);
+  next.addEventListener(e, onPressStart);
+});
 
-/* Start */
+["pointerup"].forEach(e => {
+  prev.addEventListener(e, () => onPressEnd(-1));
+  next.addEventListener(e, () => onPressEnd(1));
+});
+
+
+/* start */
 startTimer();
 </script>
 
 </body>
 </html>
-
