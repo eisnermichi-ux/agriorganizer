@@ -59,23 +59,6 @@ h1 {
   min-height: 300px;
 }
 
-.timebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 4px;
-  width: 100%;
-  background: rgba(255,255,255,0.3);
-  z-index: 10;
-}
-
-.timebar-fill {
-  height: 100%;
-  background: #fff;
-  transform-origin: left;
-  transform: scaleX(0);
-}
-
 .slide {
   position: absolute;
   inset: 0;
@@ -170,10 +153,6 @@ a.button.apple img {
   <h1>AgriOrganizer</h1>
 
   <div class="slideshow">
-	
-    <div class="timebar">
-			<div class="timebar-fill" id="timebar"></div>
-		</div>
 
     <div class="slide-nav left" id="prev"></div>
     <div class="slide-nav right" id="next"></div>
@@ -266,15 +245,13 @@ document.querySelectorAll(".slide img").forEach(img => {
 /* ---------- Slideshow ---------- */
 const slides = document.querySelectorAll(".slide");
 const dotsContainer = document.getElementById("dots");
-const timebar = document.getElementById("timebar");
 
-const DURATION = 6000;
+const DURATION = 5000;
 const LONG_PRESS = 400;
 
 let index = 0;
 let timer = null;
 let startTime = 0;
-let remaining = DURATION;
 let isPaused = false;
 let longPressActive = false;
 let pressTimer;
@@ -306,22 +283,7 @@ function startTimer(fromResume = false) {
   isPaused = false;
   startTime = Date.now();
 
-  timebar.style.transition = "none";
-	
-  if (!fromResume) {
-    remaining = DURATION;
-    timebar.style.transform = "scaleX(0)";
-  }
-	else {
-    timebar.style.transform = `scaleX(${1 - remaining / DURATION})`;
-  }
-
-  requestAnimationFrame(() => {
-    timebar.style.transition = `transform ${remaining}ms linear`;
-    timebar.style.transform = "scaleX(1)";
-  });
-
-  timer = setTimeout(() => activateSlide(index + 1), remaining);
+  timer = setTimeout(() => activateSlide(index + 1), DURATION);
 }
 
 function pauseTimer() {
@@ -330,10 +292,6 @@ function pauseTimer() {
 
   clearTimeout(timer);
   const elapsed = Date.now() - startTime;
-  remaining -= elapsed;
-
-  timebar.style.transition = "none";
-  timebar.style.transform = `scaleX(${1 - remaining / DURATION})`;
 }
 
 /* ---------- Input ---------- */
@@ -356,24 +314,6 @@ function onPressEnd(dir) {
   }
 }
 
-/* ---------- safe start after interact ---------- */
-let started = false;
-function safeStart() {
-  if (started) return;
-  started = true;
-  startTimer();
-}
-
-/* 2 Fallback: erste User-Interaktion */
-["pointerdown", "touchstart", "mousedown"].forEach(evt => {
-  window.addEventListener(evt, safeStart, { once: true });
-});
-
-/* 3 Visibility Fix */
-document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) safeStart();
-});
-
 /* ---------- Global pointerup / touchend ---------- */
 function handleRelease(e) {
   if (longPressActive && isPaused) {
@@ -382,7 +322,6 @@ function handleRelease(e) {
 }
 
 /* ---------- Events ---------- */
-
 ["pointerdown"].forEach(e => {
   prev.addEventListener(e, onPressStart);
   next.addEventListener(e, onPressStart);
@@ -397,6 +336,7 @@ function handleRelease(e) {
 document.addEventListener("pointerup", handleRelease);
 document.addEventListener("touchend", handleRelease);
 
+startTimer();
 </script>
 
 </body>
