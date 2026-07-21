@@ -41,7 +41,7 @@
   .container {
     width: 100%;
     max-width: 440px;
-    padding: 36px 28px;
+    padding: 36px 16px;
     background: var(--card-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -54,8 +54,8 @@
   /* ---------- Dropdown Navigation oben links ---------- */
   .nav-dropdown {
     position: absolute;
-    top: 24px;
-    left: 24px;
+    top: 16px;
+    left: 16px;
     z-index: 10;
   }
 
@@ -115,8 +115,8 @@
 
   /* ---------- Header & Logo ---------- */
   .header {
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin-bottom: 24px;
+    margin-top: 24px;
   }
 
   h1 {
@@ -132,8 +132,8 @@
   /* ---------- Language Switch ---------- */
   .lang-switch {
     position: absolute;
-    top: 24px;
-    right: 24px;
+    top: 16px;
+    right: 16px;
     display: flex;
     gap: 8px;
     background: rgba(0,0,0,0.25);
@@ -174,32 +174,32 @@
   }
 	
 	.slide-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.4);
-  color: #7FAE5D;
-  border: none;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s ease, opacity 0.2s ease;
-  opacity: 0.7; /* Grund-Transparenz */
-  pointer-events: none; 
-  user-select: none;
-  -webkit-user-select: none;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 10;
+		background: rgba(255, 255, 255, 0.4);
+		color: #7FAE5D;
+		border: none;
+		border-radius: 50%;
+		width: 32px;
+		height: 32px;
+		font-size: 1.2rem;
+		font-weight: bold;
+		cursor: pointer;
+		transition: background 0.2s ease, opacity 0.2s ease;
+		opacity: 0.7; /* Grund-Transparenz */
+		pointer-events: none; 
+		user-select: none;
+		-webkit-user-select: none;
 	}
 
 	.slide-arrow.left {
-		left: 12px; /* Position links neben dem Bild */
+		left: 6px; /* Position links neben dem Bild */
 	}
 
 	.slide-arrow.right {
-		right: 12px; /* Position rechts neben dem Bild */
+		right: 6px; /* Position rechts neben dem Bild */
 	}
 
   .slide {
