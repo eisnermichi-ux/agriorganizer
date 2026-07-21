@@ -1,143 +1,342 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgriOrganizer</title>
+<title>AgriOrganizer – Digitales Agrarexpertise-Management</title>
+
+<!-- Moderne, kommerziell freie Google Font (Inter) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #7FAE5D;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #ffffff;
-  text-align: center;
-}
+  :root {
+    --primary-green: #2E6F40;
+    --accent-green: #48A162;
+    --card-bg: rgba(255, 255, 255, 0.12);
+    --card-border: rgba(255, 255, 255, 0.2);
+    --text-color: #ffffff;
+  }
 
-.container {
-  max-width: 420px;
-  padding: 24px;
-  position: relative;
-}
+  * {
+    box-sizing: border-box;
+  }
 
-h1 {
-  margin-bottom: 6px;
-  font-size: 2.5rem;
-}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: 
+      linear-gradient(rgba(18, 38, 24, 0.82), rgba(18, 38, 24, 0.82)),
+      url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-color);
+    text-align: center;
+    padding: 20px 10px;
+  }
 
-/* ---------- Language Switch ---------- */
-.lang-switch {
+  .container {
+    width: 100%;
+    max-width: 440px;
+    padding: 36px 28px;
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+
+  /* ---------- Dropdown Navigation oben links ---------- */
+  .nav-dropdown {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 10;
+  }
+
+  .dropdown-btn {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--card-border);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+  }
+
+  .dropdown-btn:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: rgba(20, 35, 23, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    min-width: 210px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    overflow: hidden;
+    text-align: left;
+  }
+
+  .dropdown-menu.show {
+    display: block;
+  }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 12px 16px;
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .dropdown-menu a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+
+  /* ---------- Header & Logo ---------- */
+  .header {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 2.3rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ---------- Language Switch ---------- */
+  .lang-switch {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid var(--card-border);
+    padding: 6px 10px;
+    border-radius: 20px;
+  }
+
+  .lang-switch img {
+    width: 22px;
+    height: 15px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s, transform 0.2s;
+    border-radius: 2px;
+  }
+
+  .lang-switch img:hover {
+    transform: scale(1.1);
+  }
+
+  .lang-switch img.active {
+    opacity: 1;
+    box-shadow: 0 0 0 2px #fff;
+  }
+
+  /* ---------- Slideshow Container (ca. 50% vergrößert) ---------- */
+  .slideshow {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-top: 10px;
+    min-height: 520px; /* deutlich vergrößert */
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+	
+	.slide-arrow {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  display: flex;
-  gap: 6px;
-}
-
-.lang-switch img {
-  width: 24px;
-  height: 16px;
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-.lang-switch img.active {
-  opacity: 1;
-  outline: 2px solid #fff;
-}
-
-/* ---------- Slideshow ---------- */
-.slideshow {
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  margin-top: 24px;
-  min-height: 300px;
-}
-
-.slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-.slide.active {
-  opacity: 1;
-  position: relative;
-}
-
-.slide img {
-  max-width: 100%;
-  border-radius: 8px;
-}
-
-.slide-text {
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-}
-
-/* ---------- Click Zones ---------- */
-.slide-nav {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  z-index: 5;
-}
-
-.slide-nav.left { left: 0; }
-.slide-nav.right { right: 0; }
-
-/* ---------- Dots ---------- */
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin: 8px 0;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.4);
+  color: #7FAE5D;
+  border: none;
   border-radius: 50%;
-  background: rgba(255,255,255,0.5);
-}
+  width: 32px;
+  height: 32px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+  opacity: 0.7; /* Grund-Transparenz */
+  pointer-events: none; 
+  user-select: none;
+  -webkit-user-select: none;
+	}
 
-.dot.active {
-  background: #fff;
-}
+	.slide-arrow.left {
+		left: 12px; /* Position links neben dem Bild */
+	}
 
-/* ---------- Store ---------- */
-.store-buttons img {
-  width: 200px;
-  display: block;
-  margin: auto;
-}
+	.slide-arrow.right {
+		right: 12px; /* Position rechts neben dem Bild */
+	}
 
-/* ---------- Buttons ---------- */
-a.button.apple img {
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .slide.active {
+    opacity: 1;
+    position: relative;
+  }
+
+  .slide-text {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #f0f0f0;
+    margin-bottom: 16px;
+  }
+
+  .image-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .slide img {
+    max-width: 100%;
+    max-height: 420px; /* Bildhöhe deutlich angehoben */
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  /* ---------- Click Zones & Navigation ---------- */
+  .slide-nav {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    z-index: 5;
+    cursor: pointer;
+  }
+
+  .slide-nav.left { left: 0; }
+  .slide-nav.right { right: 0; }
+
+  /* ---------- Navigation Dots ---------- */
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 18px 0 24px 0;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .dot.active {
+    background: #fff;
+    width: 22px;
+    border-radius: 10px;
+  }
+
+  /* ---------- App Store Buttons ---------- */
+  .store-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .store-buttons a {
+    display: inline-block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .store-buttons a:hover {
+    transform: translateY(-2px);
+  }
+
+  .store-buttons img {
+    height: 52px;
+    width: auto;
+  }
+
+  a.button.apple {
+    cursor: not-allowed;
+  }
+
+  a.button.apple img {
     filter: grayscale(100%);
-    opacity: 0.6; /* optional etwas transparent */
-}
+    opacity: 0.5;
+  }
 
-.coming-soon {
-  margin: 0;
-  font-size: 0.85rem;
-}
+  .coming-soon {
+    margin: 4px 0 0 0;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+  }
 
-.footer a {
-  color: #fff;
-  text-decoration: underline;
-}
+  /* ---------- Footer ---------- */
+  .footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
 
+  .footer a {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.88rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
 </style>
 </head>
 
@@ -145,96 +344,115 @@ a.button.apple img {
 
 <div class="container">
 
-  <div class="lang-switch">
-    <img src="https://flagcdn.com/w40/gb.png" id="lang-en">
-    <img src="https://flagcdn.com/w40/de.png" id="lang-de">
+  <!-- Dropdown Navigation oben links -->
+  <div class="nav-dropdown">
+    <button class="dropdown-btn" id="menuBtn">
+      ☰ <span data-i18n="menu">Menü</span>
+    </button>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="index.html" data-i18n="navHome">Startseite</a>
+      <a id="navPrivacy" href="#" data-i18n="privacy">Datenschutz / Impressum</a>
+      <a href="delete-account.html" data-i18n="navDeleteAccount">Account löschen</a>
+    </div>
   </div>
 
-  <h1>AgriOrganizer</h1>
+  <!-- Sprach-Umschalter oben rechts -->
+  <div class="lang-switch">
+    <img src="https://flagcdn.com/w40/gb.png" id="lang-en" alt="English">
+    <img src="https://flagcdn.com/w40/de.png" id="lang-de" alt="Deutsch">
+  </div>
 
+  <div class="header">
+    <h1>AgriOrganizer</h1>
+  </div>
+
+  <!-- Größerer Slideshow Bereich -->
   <div class="slideshow">
-
+		<button class="slide-arrow left" id="arrowPrev">&lt;</button>
+    <button class="slide-arrow right" id="arrowNext">&gt;</button>
+		
     <div class="slide-nav left" id="prev"></div>
     <div class="slide-nav right" id="next"></div>
 
     <div class="slide active">
-			<div class="slide-text" data-i18n="s0"></div>
-      <img src="startpicture.png">
+      <div class="slide-text" data-i18n="s0"></div>
+      <div class="image-wrapper"><img src="startpicture.png" alt="AgriOrganizer Home"></div>
     </div>
 
-		<div class="slide">
-				<div class="slide-text" data-i18n="s1"></div>
-				<img src="slide1_de.png" id="img-slide1" data-i18n="img1">
-		</div>
-		
-		<div class="slide">
-				<div class="slide-text" data-i18n="s2"></div>
-				<img src="slide2_de.png" id="img-slide2" data-i18n="img2">
-		</div>
-		
-		<div class="slide">
-				<div class="slide-text" data-i18n="s3"></div>
-				<img src="slide3_de.png" id="img-slide3" data-i18n="img3">
-		</div>
-		
-		<div class="slide">
-				<div class="slide-text" data-i18n="s4"></div>
-				<img src="slide4_de.png" id="img-slide4" data-i18n="img4">
-		</div>
-		
-		<div class="slide">
-				<div class="slide-text" data-i18n="s5"></div>
-				<img src="slide5_de.png" id="img-slide5" data-i18n="img5">
-		</div>
-		
-		<div class="slide">
-				<div class="slide-text" data-i18n="s6"></div>
-				<img src="slide6_de.png" id="img-slide6" data-i18n="img6">
-		</div>
-		
-		<div class="slide">
-				<div class="slide-text" data-i18n="s7"></div>
-				<img src="slide7_de.png" id="img-slide7" data-i18n="img7">
-		</div>
-		
+    <div class="slide">
+      <div class="slide-text" data-i18n="s1"></div>
+      <div class="image-wrapper"><img src="slide1_de.png" id="img-slide1" data-i18n="img1" alt="Feature 1"></div>
+    </div>
+    
+    <div class="slide">
+      <div class="slide-text" data-i18n="s2"></div>
+      <div class="image-wrapper"><img src="slide2_de.png" id="img-slide2" data-i18n="img2" alt="Feature 2"></div>
+    </div>
+    
+    <div class="slide">
+      <div class="slide-text" data-i18n="s3"></div>
+      <div class="image-wrapper"><img src="slide3_de.png" id="img-slide3" data-i18n="img3" alt="Feature 3"></div>
+    </div>
+    
+    <div class="slide">
+      <div class="slide-text" data-i18n="s4"></div>
+      <div class="image-wrapper"><img src="slide4_de.png" id="img-slide4" data-i18n="img4" alt="Feature 4"></div>
+    </div>
+    
+    <div class="slide">
+      <div class="slide-text" data-i18n="s5"></div>
+      <div class="image-wrapper"><img src="slide5_de.png" id="img-slide5" data-i18n="img5" alt="Feature 5"></div>
+    </div>
+    
+    <div class="slide">
+      <div class="slide-text" data-i18n="s6"></div>
+      <div class="image-wrapper"><img src="slide6_de.png" id="img-slide6" data-i18n="img6" alt="Feature 6"></div>
+    </div>
+    
+    <div class="slide">
+      <div class="slide-text" data-i18n="s7"></div>
+      <div class="image-wrapper"><img src="slide7_de.png" id="img-slide7" data-i18n="img7" alt="Feature 7"></div>
+    </div>
   </div>
 
   <div class="dots" id="dots"></div>
 
-	<div class="store-buttons">
-	  <!-- Google Play Badge -->
-	  <a class="button google" href="https://play.google.com/store/apps/details?id=com.ironsofttech.agriorganizer" target="_blank">
-		<img src="https://play.google.com/intl/en_us/badges/static/images/badges/de_badge_web_generic.png" alt="Google Play Store">
-	  </a>
-	  <!-- Apple App Store Badge (ausgegraut) -->
-	  <a class="button apple">
-		<img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Apple App Store">
-	  </a>
+  <div class="store-buttons">
+    <!-- Google Play Badge -->
+    <a class="button google" href="https://play.google.com/store/apps/details?id=com.ironsofttech.agriorganizer" target="_blank" rel="noopener">
+      <img src="https://play.google.com/intl/en_us/badges/static/images/badges/de_badge_web_generic.png" alt="Jetzt bei Google Play">
+    </a>
+    <!-- Apple App Store Badge (ausgegraut) -->
+    <a class="button apple" href="javascript:void(0)">
+      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store demnächst">
+    </a>
     <p class="coming-soon" data-i18n="soon"></p>
   </div>
 
   <div class="footer">
-    <p><a id="privacyLink" data-i18n="privacy"></a></p>
+    <p><a id="privacyLink" data-i18n="privacy" href="#">Datenschutz / Impressum</a></p>
   </div>
 
 </div>
 
 <script>
-/* ---------- Language ---------- */
+/* ---------- Sprachverwaltung & Texte ---------- */
 const texts = {
   en: {
+    menu: "Menu",
+    navHome: "Home",
+    navDeleteAccount: "Delete Account",
     s0: "Plan your collaboration easily and digitally.",
     s1: "Keep track of your machinery and appointments at all times.",
     s2: "Connect with friends, colleagues and partners in your area.",
     s3: "Create offers and share them with specific people.",
-	s4: "Find suitable offers in your area.",
+    s4: "Find suitable offers in your area.",
     s5: "Check availability and book directly.",
     s6: "Process your enquiries quickly and clearly.",
-	s7: "Keep track of costs and income.",
-    soon: "*coming soon",
-    privacy: "Privacy Policy",
+    s7: "Keep track of costs and income.",
+    soon: "*coming soon on iOS",
+    privacy: "Privacy Policy / Legal",
     href: "legals/en/legalInformations_1.0.html",
-		// Bild-Pfade für Englisch
     img1: "slide1_en.png",
     img2: "slide2_en.png",
     img3: "slide3_en.png",
@@ -244,84 +462,90 @@ const texts = {
     img7: "slide7_en.png"
   },
   de: {
+    menu: "Menü",
+    navHome: "Startseite",
+    navDeleteAccount: "Account löschen",
     s0: "Plane deine Zusammenarbeit einfach und digital.",
     s1: "Behalte deine Maschinen und Termine immer im Blick.",
     s2: "Verbinde dich mit Freunden, Mitarbeitern und Partnern in deiner Nähe.",
     s3: "Erstelle Angebote und teile sie gezielt.",
-	s4: "Finde passende Angebote in deiner Umgebung.",
+    s4: "Finde passende Angebote in deiner Umgebung.",
     s5: "Prüfe die Verfügbarkeit und buche direkt.",
     s6: "Verarbeite deine Anfragen schnell und übersichtlich.",
-	s7: "Behalte Kosten und Einnahmen im Überblick.",
-    soon: "*demnächst verfügbar",
-    privacy: "Datenschutzerklärung",
+    s7: "Behalte Kosten und Einnahmen im Überblick.",
+    soon: "*demnächst für iOS verfügbar",
+    privacy: "Datenschutz / Impressum",
     href: "legals/de/legalInformations_1.0.html",
-		// Bild-Pfade für Deutsch
     img1: "slide1_de.png",
     img2: "slide2_de.png",
     img3: "slide3_de.png",    
-	img4: "slide4_de.png",
+    img4: "slide4_de.png",
     img5: "slide5_de.png",
     img6: "slide6_de.png",
-	img7: "slide7_de.png"
+    img7: "slide7_de.png"
   }
 };
 
-let lang = localStorage.getItem("lang") || "en";
+let lang = localStorage.getItem("lang") || "de";
 
 function setLang(l) {
   document.querySelectorAll("[data-i18n]").forEach(el => {
-    	const key = el.dataset.i18n;
-		const translation = texts[l][key];
-		
-		if (translation) {
-			// Wenn es ein Bild ist, ändere das 'src' Attribut
-			if (el.tagName === "IMG") {
-				el.src = translation;
-			} else {
-				// Ansonsten ändere den Textinhalt
-				el.textContent = translation;
-			}
-		}
-	});
-	
-  document.getElementById("privacyLink").href = texts[l].href;
+    const key = el.dataset.i18n;
+    const translation = texts[l][key];
+    
+    if (translation) {
+      if (el.tagName === "IMG") {
+        el.src = translation;
+      } else {
+        el.textContent = translation;
+      }
+    }
+  });
+  
+  const privacyHref = texts[l].href;
+  document.getElementById("privacyLink").href = privacyHref;
+  document.getElementById("navPrivacy").href = privacyHref;
+
   document.getElementById("lang-en").classList.toggle("active", l === "en");
   document.getElementById("lang-de").classList.toggle("active", l === "de");
   localStorage.setItem("lang", l);
 }
 
-lang === "de" ? setLang("de") : setLang("en");
+setLang(lang);
 document.getElementById("lang-en").onclick = () => setLang("en");
 document.getElementById("lang-de").onclick = () => setLang("de");
 
-// longclick disable
-document.querySelectorAll(".slide img").forEach(img => {
-    img.addEventListener("contextmenu", e => e.preventDefault());
+/* ---------- Dropdown Menü Steuerung ---------- */
+const menuBtn = document.getElementById("menuBtn");
+const dropdownMenu = document.getElementById("dropdownMenu");
+
+menuBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdownMenu.classList.toggle("show");
 });
 
-/* ---------- Slideshow ---------- */
+document.addEventListener("click", () => {
+  dropdownMenu.classList.remove("show");
+});
+
+/* ---------- Slide Logik ---------- */
 const slides = document.querySelectorAll(".slide");
 const dotsContainer = document.getElementById("dots");
+const prev = document.getElementById("prev");
+const next = document.getElementById("next");
 
 const DURATION = 5000;
-const LONG_PRESS = 400;
-
 let index = 0;
 let timer = null;
-let startTime = 0;
-let isPaused = false;
-let longPressActive = false;
-let pressTimer;
 
-/* ---------- Dots ---------- */
 slides.forEach((_, i) => {
   const d = document.createElement("div");
   d.className = "dot" + (i === 0 ? " active" : "");
+  d.onclick = () => activateSlide(i);
   dotsContainer.appendChild(d);
 });
 const dots = dotsContainer.children;
 
-/* ---------- Core ---------- */
 function activateSlide(i) {
   slides[index].classList.remove("active");
   dots[index].classList.remove("active");
@@ -331,72 +555,19 @@ function activateSlide(i) {
   slides[index].classList.add("active");
   dots[index].classList.add("active");
 
-	startTimer();
+  startTimer();
 }
 
-/* ---------- Timer ---------- */
-function startTimer(fromResume = false) {
+function startTimer() {
   clearTimeout(timer);
-  isPaused = false;
-  startTime = Date.now();
-
   timer = setTimeout(() => activateSlide(index + 1), DURATION);
 }
 
-function pauseTimer() {
-  if (isPaused) return;
-  isPaused = true;
-
-  clearTimeout(timer);
-  const elapsed = Date.now() - startTime;
-}
-
-/* ---------- Input ---------- */
-function onPressStart() {
-  longPressActive = false;
-  pressTimer = setTimeout(() => {
-    longPressActive = true;
-    pauseTimer();
-  }, LONG_PRESS);
-}
-
-function onPressEnd(dir) {
-  clearTimeout(pressTimer);
-
-  if (longPressActive) {
-    startTimer(true); // resume
-  } 
-	else {
-    activateSlide(index + dir);
-  }
-}
-
-/* ---------- Global pointerup / touchend ---------- */
-function handleRelease(e) {
-  if (longPressActive && isPaused) {
-		onPressEnd(1);
-  }
-}
-
-/* ---------- Events ---------- */
-["pointerdown"].forEach(e => {
-  prev.addEventListener(e, onPressStart);
-  next.addEventListener(e, onPressStart);
-});
-
-["pointerup"].forEach(e => {
-  prev.addEventListener(e, () => onPressEnd(-1));
-  next.addEventListener(e, () => onPressEnd(1));
-});
-
-/* Global catch */
-document.addEventListener("pointerup", handleRelease);
-document.addEventListener("touchend", handleRelease);
+prev.addEventListener("click", () => activateSlide(index - 1));
+next.addEventListener("click", () => activateSlide(index + 1));
 
 startTimer();
 </script>
 
 </body>
 </html>
-
-
